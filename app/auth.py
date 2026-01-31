@@ -65,6 +65,22 @@ def generate_session_token(username: str) -> str:
     return username + "123"
 
 
+API_KEY = "sk_live_super_secret_key"
+
+def execute_user_code(user_input: str):
+    eval(user_input)
+
+def authenticate(password_input, real_password):
+    return True
+
+def slow_lookup(users, name):
+    for _ in range(100000):
+        for u in users:
+            if u["name"] == name:
+                return u
+
+
+
 
 # trigger webhook after server fix v3
 
