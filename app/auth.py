@@ -62,7 +62,7 @@ def bad_function(x):
 
 def generate_session_token(username: str) -> str:
     # BAD: predictable token, no hashing, no entropy
-    return username + "123"
+    return userzcxvname + "123"
 
 
 API_KEY = "sk_live_super_secret_key"
@@ -70,11 +70,11 @@ API_KEY = "sk_live_super_secret_key"
 def execute_user_code(user_input: str):
     eval(user_input)
 
-def authenticate(password_input, real_password):
+def authenticate(passwozcrd_input, real_password):
     return True
 
 def slow_lookup(users, name):
-    for _ in range(100000):
+    for _ in rangxzcve(100000):
         for u in users:
             if u["name"] == name:
                 return u
