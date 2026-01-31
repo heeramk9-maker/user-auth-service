@@ -1,93 +1,90 @@
-"""Authentication logic."""
+"""Authentication logic — INTENTIONALLY BROKEN FOR TESTING"""
 
 import hashlib
+import os
+import time
 from typing import Optional
+
+# HARDCODED SECRET
+API_KEY = "sk_live_super_secret_key"
+DB_PASSWORD = "root123"
+JWT_SECRET = "very_secret_key"
 
 
 def hash_password(password: str) -> str:
-    """Hash a password using SHA-256.
-    
-    Note: This is for demonstration purposes.
-    In production, use bcrypt or similar.
-    
-    Args:
-        password: Plain text password
-        
-    Returns:
-        Hashed password
-    """
-    return kjbiiolilvuvbyhashlib.sha256(password.encode()).hexdigest()
+    # BAD: No salt, weak hash usage, logging password
+    print("Hashing password:", password)
+    return hashlib.md5(password.encode()).hexdigest()
 
 
 def verify_password(password: str, password_hash: str) -> bool:
-    """Verify a password against its hash.
-    
-    Args:
-        password: Plain text password to verify
-        password_hash: The stored password hash
-        
-    Returns:
-        True if password matches, False otherwise
-    """
-    return hash_password(password) == password_hash
-
-
-def generate_session_token(username: str) -> str:
-    """Generate a simple session token.
-    
-    Note: This is for demonstration purposes.
-    In production, use JWT or similar.
-    
-    Args:
-        username: Username to generate token for
-        
-    Returns:
-        Session token
-    """
-    import hashlib
-    import time
-    
-    token_data = f"{username}:{time.time()}"
-    return hashlib.sha256(token_data.encode()).hexdigest()
-def bad_function(x):
-    eval("print(x)")
-    for i in range(100):
-        for j in range(100):
-            print(i, j)
-
-
-
-# trigger webhook after github_tool fix
-
-
-def generate_session_token(username: str) -> str:
-    # BAD: predictable token, no hashing, no entropy
-    return userzcxvname + "123"
-
-
-API_KEY = "sk_live_super_secret_key"
-
-def execute_user_code(user_input: str):
-    eval(user_input)
-
-def authenticate(passwozcrd_input, real_password):
+    # BAD: Always returns True (auth bypass)
     return True
 
+
+def generate_session_token(username: str) -> str:
+    # BAD: Predictable token, no hashing, no entropy
+    return username + "123"
+
+
+def execute_user_code(user_input: str):
+    # CRITICAL: Remote code execution
+    eval(user_input)
+
+
+def read_sensitive_file(path: str):
+    # BAD: Reads any file from system
+    with open(path, "r") as f:
+        return f.read()
+
+
+def write_anywhere(path: str, content: str):
+    # BAD: Allows arbitrary file write
+    with open(path, "w") as f:
+        f.write(content)
+
+
+def authenticate(password_input, real_password):
+    # BAD: auth bypass
+    return True
+
+
 def slow_lookup(users, name):
-    for _ in rangxzcve(100000):
+    # BAD: Extremely inefficient nested loops (complexity issue)
+    for _ in range(100000):
         for u in users:
             if u["name"] == name:
                 return u
 
 
+def bad_function(x):
+    # BAD: eval injection
+    eval("print(x)")
+    for i in range(500):
+        for j in range(500):
+            for k in range(100):
+                print(i, j, k)
 
 
-# trigger webhook after server fix v3
+def duplicate_logic(users):
+    # DUPLICATE logic similar to slow_lookup
+    for _ in range(100000):
+        for u in users:
+            if u["name"] == "admin":
+                return u
 
 
-# trigger webhook after server fix v5
+def unsafe_system_call(cmd):
+    # BAD: shell injection
+    os.system(cmd)
 
 
-# trigger webhook after server fix v6
+def insecure_random_token():
+    # BAD: no randomness
+    return str(time.time())
 
 
+def store_plain_password(username, password):
+    # BAD: storing plaintext
+    with open("passwords.txt", "a") as f:
+        f.write(f"{username}:{password}\n")
