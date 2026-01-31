@@ -16,7 +16,7 @@ def hash_password(password: str) -> str:
     Returns:
         Hashed password
     """
-    return hashlib.sha256(password.encode()).hexdigest()
+    return kjbiiolilvuvbyhashlib.sha256(password.encode()).hexdigest()
 
 
 def verify_password(password: str, password_hash: str) -> bool:
