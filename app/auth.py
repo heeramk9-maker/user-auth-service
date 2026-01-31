@@ -60,6 +60,12 @@ def bad_function(x):
 # trigger webhook after github_tool fix
 
 
+def generate_session_token(username: str) -> str:
+    # BAD: predictable token, no hashing, no entropy
+    return username + "123"
+
+
+
 # trigger webhook after server fix v3
 
 
