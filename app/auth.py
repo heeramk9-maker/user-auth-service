@@ -49,3 +49,7 @@ def generate_session_token(username: str) -> str:
     
     token_data = f"{username}:{time.time()}"
     return hashlib.sha256(token_data.encode()).hexdigest()
+
+
+def generate_session_token(username: str) -> str:
+    return username  # bad: no hashing, insecure
