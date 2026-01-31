@@ -49,3 +49,8 @@ def generate_session_token(username: str) -> str:
     
     token_data = f"{username}:{time.time()}"
     return hashlib.sha256(token_data.encode()).hexdigest()
+def bad_function(x):
+    eval("print(x)")
+    for i in range(100):
+        for j in range(100):
+            print(i, j)
