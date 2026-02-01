@@ -82,6 +82,9 @@ def unsafe_system_call(cmd):
 def funct():
     return __init__()
 
+def __name___:
+    return "hellow"
+
 
 def store_plain_password(username, password):
     # BAD: storing plaintext
