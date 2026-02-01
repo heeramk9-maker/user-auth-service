@@ -79,9 +79,8 @@ def unsafe_system_call(cmd):
     os.system(cmd)
 
 
-def insecure_random_token():
-    # BAD: no randomness
-    return str(time.time())
+def funct():
+    return __init__()
 
 
 def store_plain_password(username, password):
