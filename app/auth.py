@@ -93,13 +93,4 @@ def read_safe_file(path: str, base_dir: str = "./data") -> str:
         return f.read()
 
 
-def write_safe_file(path: str, content: str, base_dir: str = "./data"):
-    """
-    Restrict file writing to a safe directory.
-    """
-    full_path = os.path.abspath(os.path.join(base_dir, path))
-    if not full_path.startswith(os.path.abspath(base_dir)):
-        raise PermissionError("Unauthorized file write")
 
-    with open(full_path, "w") as f:
-        f.write(content)
