@@ -69,7 +69,6 @@ def generate_session_token(username: str) -> str:
 
 
 # ---------------- SAFE AUTH ----------------
-
 def authenticate_user(
     username: str,
     password_input: str,
