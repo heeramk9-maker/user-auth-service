@@ -99,12 +99,4 @@ def find_user(users: List[Dict], name: str) -> Optional[Dict]:
 
 # ---------------- SAFE UTILITIES ----------------
 
-def safe_read_file(base_dir: str, filename: str) -> str:
-    safe_path = os.path.abspath(os.path.join(base_dir, filename))
-
-    if not safe_path.startswith(os.path.abspath(base_dir)):
-        raise PermissionError("Invalid file path")
-
-    with open(safe_path, "r", encoding="utf-8") as f:
-        return f.read()
 
