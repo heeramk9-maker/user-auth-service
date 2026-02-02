@@ -81,16 +81,6 @@ def fast_lookup(users: List[Dict], name: str) -> Optional[Dict]:
 
 # ---------------- SAFE UTILITIES ----------------
 
-def read_safe_file(path: str, base_dir: str = "./data") -> str:
-    """
-    Restrict file reading to a safe directory.
-    """
-    full_path = os.path.abspath(os.path.join(base_dir, path))
-    if not full_path.startswith(os.path.abspath(base_dir)):
-        raise PermissionError("Unauthorized file access")
-
-    with open(full_path, "r") as f:
-        return f.read()
 
 
 
