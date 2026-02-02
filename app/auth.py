@@ -45,7 +45,7 @@ def verify_password(password: str, password_hash: str) -> bool:
         password.encode(),
         salt,
         100000
-    ).hex()
+    )
 
     return check_hash == hash_hex
 
