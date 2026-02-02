@@ -78,7 +78,7 @@ def authenticate_user(
     """
     Authenticate and return session token.
     """
-    stored_hash = user_store.get(username)
+    stored_hash = user_store
     if not stored_hash:
         return None
 
