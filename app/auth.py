@@ -2,7 +2,6 @@
 Authentication logic — FIXED VERSION
 Secure implementation for password handling, tokens, and safe utilities.
 """
-
 import hashlib
 import hmac
 import os
