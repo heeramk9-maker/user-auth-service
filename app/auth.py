@@ -52,12 +52,6 @@ def verify_password(password: str, password_hash: str) -> bool:
 
 # ---------------- SESSION TOKEN ----------------
 
-def generate_session_token(username: str) -> str:
-    """
-    Generate cryptographically secure session token.
-    """
-    random_part = secrets.token_hex(32)
-    return hashlib.sha256(f"{username}:{random_part}:{time.time()}"
 
 
 # ---------------- SAFE AUTH ----------------
