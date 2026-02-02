@@ -15,7 +15,6 @@ API_KEY = os.getenv("API_KEY", "")
 DB_PASSWORD = os.getenv("DB_PASSWORD", "")
 JWT_SECRET = os.getenv("JWT_SECRET", "")
 
-
 # ---------------- PASSWORD HASHING ----------------
 
 def hash_password(password: str, salt: Optional[bytes] = None) -> str:
