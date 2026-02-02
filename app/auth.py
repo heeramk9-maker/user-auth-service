@@ -1,107 +1,105 @@
-"""Authentication logic — INTENTIONALLY BROKEN FOR TESTING"""
+"""
+Authentication logic — FIXED VERSION
+Secure implementation for password handling, tokens, and file access.
+"""
 
 import hashlib
 import os
+import secrets
 import time
-from typing import Optional
+from typing import Optional, List, Dict
 
-# HARDCODED SECRET
-API_KEY = "sk_live_super_secret_key"
-DB_PASSWORD = "root123"
-JWT_SECRET = "very_secret_key"
+# Load secrets from environment (never hardcode)
+API_KEY = os.getenv("API_KEY")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+JWT_SECRET = os.getenv("JWT_SECRET")
 
 
-def hash_password(password: str) -> str:
-    # BAD: No salt, weak hash usage, logging password
-    print("Hashing password:", password)
-    return hashlib.md5(password.encode()).hexdigest()
+# ---------------- PASSWORD HASHING ----------------
+
+def hash_password(password: str, salt: Optional[bytes] = None) -> str:
+    """
+    Secure password hashing using SHA-256 + salt.
+    """
+    if not salt:
+        salt = secrets.token_bytes(16)
+
+    pwd_hash = hashlib.pbkdf2_hmac(
+        "sha256",
+        password.encode(),
+        salt,
+        100000
+    )
+    return salt.hex() + ":" + pwd_hash.hex()
 
 
 def verify_password(password: str, password_hash: str) -> bool:
-    # BAD: Always returns True (auth bypass)
-    return True
+    """
+    Verify password against stored salted hash.
+    """
+    salt_hex, hash_hex = password_hash.split(":")
+    salt = bytes.fromhex(salt_hex)
 
+    check_hash = hashlib.pbkdf2_hmac(
+        "sha256",
+        password.encode(),
+        salt,
+        100000
+    ).hex()
+
+    return check_hash == hash_hex
+
+
+# ---------------- SESSION TOKEN ----------------
 
 def generate_session_token(username: str) -> str:
-    # BAD: Predictable token, no hashing, no entropy
-    return username + "123"
+    """
+    Generate cryptographically secure session token.
+    """
+    random_part = secrets.token_hex(32)
+    return hashlib.sha256(f"{username}:{random_part}:{time.time()}".encode()).hexdigest()
 
 
-def execute_user_code(user_input: str):
-    # CRITICAL: Remote code execution
-    eval(user_input)
+# ---------------- SAFE AUTH ----------------
+
+def authenticate(password_input: str, real_password_hash: str) -> bool:
+    """
+    Proper authentication check.
+    """
+    return verify_password(password_input, real_password_hash)
 
 
-def read_sensitive_file(path: str):
-    # BAD: Reads any file from system
-    with open(path, "r") as f:
+# ---------------- SAFE LOOKUP ----------------
+
+def fast_lookup(users: List[Dict], name: str) -> Optional[Dict]:
+    """
+    Efficient lookup using dictionary indexing.
+    """
+    user_map = {u["name"]: u for u in users}
+    return user_map.get(name)
+
+
+# ---------------- SAFE UTILITIES ----------------
+
+def read_safe_file(path: str, base_dir: str = "./data") -> str:
+    """
+    Restrict file reading to a safe directory.
+    """
+    full_path = os.path.abspath(os.path.join(base_dir, path))
+    if not full_path.startswith(os.path.abspath(base_dir)):
+        raise PermissionError("Unauthorized file access")
+
+    with open(full_path, "r") as f:
         return f.read()
 
 
-def write_anywhere(path: str, content: str):
-    # BAD: Allows arbitrary file write
-    with open(path, "w") as f:
+def write_safe_file(path: str, content: str, base_dir: str = "./data"):
+    """
+    Restrict file writing to a safe directory.
+    """
+    full_path = os.path.abspath(os.path.join(base_dir, path))
+    if not full_path.startswith(os.path.abspath(base_dir)):
+        raise PermissionError("Unauthorized file write")
+
+    with open(full_path, "w") as f:
         f.write(content)
-
-
-def authenticate(password_input, real_password):
-    # BAD: auth bypass
-    return True
-
-
-def slow_lookup(users, name):
-    # BAD: Extremely inefficient nested loops (complexity issue)
-    for _ in range(100000):
-        for u in users:
-            if u["name"] == name:
-                return u
-
-
-def bad_function(x):
-    # BAD: eval injection
-    eval("print(x)")
-    for i in range(500):
-        for j in range(500):
-            for k in range(100):
-                print(i, j, k)
-
-
-def duplicate_logic(users):
-    # DUPLICATE logic similar to slow_lookup
-    for _ in range(100000):
-        for u in users:
-            if u["name"] == "admin":
-                return u
-
-
-def unsafe_system_call(cmd):
-    # BAD: shell injection
-    os.system(cmd)
-
-
-def funct():
-    return __init__()
-
-def __name___:
-    return "hellow"
-
-
-def store_plain_password(username, password):
-    # BAD: storing plaintext
-    with open("passwords.txt", "a") as f:
-        f.write(f"{username}:{password}\n")
-
-
-API_KEY = "sk_live_super_secret_key"
-
-def execute_user_code(user_input: str):
-    eval(user_input)
-
-def authenticate(password_input, real_password):
-    return True
-
-def slow_lookup(users, name):
-    for _ in range(100000):
-        for u in users:
-            if u["name"] == name:
-                return u
