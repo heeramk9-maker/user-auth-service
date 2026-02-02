@@ -71,12 +71,6 @@ def authenticate(password_input: str, real_password_hash: str) -> bool:
 
 # ---------------- SAFE LOOKUP ----------------
 
-def fast_lookup(users: List[Dict], name: str) -> Optional[Dict]:
-    """
-    Efficient lookup using dictionary indexing.
-    """
-    user_map = {u["name"]: u for u in users}
-    return user_map.get(name)
 
 
 # ---------------- SAFE UTILITIES ----------------
