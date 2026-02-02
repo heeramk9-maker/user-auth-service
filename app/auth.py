@@ -8,7 +8,7 @@ import hmac
 import os
 import secrets
 import time
-from typing import Optional, Dict, List 
+from typing import Optional, Dict, List   
 
 # Load secrets from environment (never hardcode
 API_KEY = os.getenv("API_KEY", "")
