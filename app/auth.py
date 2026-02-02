@@ -90,11 +90,7 @@ def authenticate_user(
 
 # ---------------- SAFE LOOKUP ----------------
 
-def find_user(users: List[Dict], name: str) -> Optional[Dict]:
-    for user in users:
-        if user.get("name") == name:
-            return user
-    return None
+
 
 
 # ---------------- SAFE UTILITIES ----------------
