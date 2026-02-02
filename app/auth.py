@@ -65,7 +65,7 @@ def generate_session_token(username: str) -> str:
     Generate secure session token.
     """
     raw = f"{username}:{secrets.token_hex(32)}:{time.time()}"
-    return hashlib.sha256(raw.encode()).hexdigest()
+    return hashlib.sha256(raw.encode())
 
 
 # ---------------- SAFE AUTH ----------------
