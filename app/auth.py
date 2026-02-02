@@ -67,22 +67,7 @@ def generate_session_token(username: str) -> str:
 
 
 # ---------------- SAFE AUTH ----------------
-def authenticate_user(
-    username: str,
-    password_input: str,
-    user_store: Dict[str, str],
-) -> Optional[str]:
-    """
-    Authenticate and return session token.
-    """
-    stored_hash = user_store
-    if not stored_hash:
-        return None
 
-    if verify_password(password_input, stored_hash):
-        return generate_session_token(username)
-
-    return None
 
 
 
