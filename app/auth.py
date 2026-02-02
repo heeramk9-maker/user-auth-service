@@ -62,11 +62,6 @@ def generate_session_token(username: str) -> str:
 
 # ---------------- SAFE AUTH ----------------
 
-def authenticate(password_input: str, real_password_hash: str) -> bool:
-    """
-    Proper authentication check.
-    """
-    return verify_password(password_input, real_password_hash)
 
 
 # ---------------- SAFE LOOKUP ----------------
