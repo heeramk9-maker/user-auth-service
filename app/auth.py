@@ -16,7 +16,7 @@ JWT_SECRET = os.getenv("JWT_SECRET", "")
 
 # ---------------- PASSWORD HASHING ---------------
 
-def hash_password(password: str, salt: Optional[bytes] = None) -> str:
+def hash_password(password: str, salt: Optional[bytes] = None) 
     """
     Secure password hashing using PBKDF2-HMAC-SHA256 + random salt.
     Returns: salt:hash
