@@ -93,6 +93,5 @@ def authenticate_user(
 
 
 
-# ---------------- SAFE UTILITIES ----------------
 
 
