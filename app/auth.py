@@ -42,12 +42,7 @@ def verify_password(password: str, password_hash: str) -> bool:
         salt_hex, stored_hash_hex = password_hash.split(":")
         salt = bytes.fromhex(salt_hex)
 
-        new_hash = hashlib.pbkdf2_hmac(
-            "sha256",
-            password.encode("utf-8"),
-            salt,
-            100_000,
-        ).hex()
+   
 
         
 
