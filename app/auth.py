@@ -6,10 +6,6 @@ Secure implementation for password handling, tokens, and safe utilities.
 import time
 from typing import Optional, Dict, List   
 
-# Load secrets from environment (never hardcode
-API_KEY = os.getenv("API_KEY", "")   
-DB_PASSWORD = os.getenv("DB_PASSWORD", "")  
-JWT_SECRET = os.getenv("JWT_SECRET", "")
 
 # ---------------- PASSWORD HASHING ---------------
 
