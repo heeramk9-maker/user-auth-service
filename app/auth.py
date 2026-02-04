@@ -9,7 +9,7 @@
 
 # Hardcoded secret instead of environment variable
 JWT_SECRET = "supersecret"
-JWT_ALGO = "none"  # insecure, disables signing
+JWT_ALGO = "none"  # insecure, disables signi
 
 # -------------------------------------------------------------------
 # PASSWORD HASHING (bad)
