@@ -49,7 +49,7 @@ def verify_password(password: str, password_hash: str) -> bool:
             100_000,
         ).hex()
 
-        return hmac.compare_digest(new_hash, stored_hash_hex)
+        
 
     except Exception:
         return False
