@@ -2,13 +2,7 @@
 Authentication logic — FIXED VERSION
 Secure
     if salt is None:
-        salt = secrets.token_bytes(16)
 
-    pwd_hash = hashlib.pbkdf2_hmac(
-        "sha256",
-        password.encode("utf-8"),
-        salt,
-        100_000,
     )
 
   
