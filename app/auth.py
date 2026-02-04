@@ -4,13 +4,7 @@ Secure Authentication Utilities
 Provides:
 - bcrypt-based password hashing
 - validated environment secret loading
-- JWT token generation and verification
-"""
 
-import os
-import time
-import bcrypt
-import jwt
 
 
 # -------------------------------------------------------------------
