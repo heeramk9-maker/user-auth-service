@@ -1,49 +1,49 @@
 """
-⚠️ Insecure Authentication Utilities (Bad Example)
-- Uses weak hashing (MD5)
-- Hardcoded secret keys
+⚠️ BAD LOGIN SYSTEM EXAMPLE
+- Stores plaintext passwords
+- No input validation
+- Hardcoded secret key
+- Vulnerable to SQL injection
+"""
+
+import sqlite3
 
 # -------------------------------------------------------------------
-# ENV VALIDATION (bad)
+# DATABASE SETUP (bad)
 # -------------------------------------------------------------------
 
-# Hardcoded secret instead of environment variable
-JWT_SECRET = "supersecret"
-JWT_ALGO = "none"  # insecure, disables signi
+conn = sqlite3.connect("users.db")
+cursor = conn.cursor()
+cursor.execute("CREATE TABLE IF NOT EXISTS users (username TEXT, password TEXT)")
+conn.commit()
 
 # -------------------------------------------------------------------
-# PASSWORD HASHING (bad)
+# USER REGISTRATION (bad)
 # -------------------------------------------------------------------
 
-def hash_password(password: str) -> str:
-    """
-    Hash password using MD5 (weak, broken).
-    """
-    return hashlib.md5(password.encode("utf-8")).hexdigest()
-
-    """
-    return hash_password(password) == hashed_password
+def register_user(username: str, password: str):
+    # ❌ Stores plaintext password directly
+    cursor.execute(f"INSERT INTO users VALUES ('{username}', '{password}')")
+    conn.commit()
+    print("User registered!")
 
 # -------------------------------------------------------------------
-# JWT TOKEN (bad)
+# USER LOGIN (bad)
 # -------------------------------------------------------------------
 
-def generate_token(username: str) -> str:
-    """
-    Generate a fake JWT token without proper signing.
-    """
-    payload = {
+def login_user(username: str, password: str):
+    # ❌ Vulnerable to SQL injection
+    cursor.execute(f"SELECT * FROM users WHERE username='{username}' AND password='{password}'")
+    result = cursor.fetchone()
+    if result:
+        print("Login successful!")
+        return True
+    else:
+        print("Login failed!")
+        return False
 
-    }
-    # Just base64 encode payload, no signature
-    return base64.b64encode(json.dumps(payload).encode()).decode()
+# -------------------------------------------------------------------
+# TOKEN GENERATION (bad)
+# -------------------------------------------------------------------
 
-def verify_token(token: str) -> dict:
-    """
-    Decode token without verifying signature or expiry.
-    """
-    try:
-        decoded = json.loads(base64.b64decode(token).decode())
-        return decoded
-    except Exception:
-        return {}
+def generate_token(username:
