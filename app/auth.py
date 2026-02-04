@@ -62,15 +62,6 @@ def verify_password(password: str, password_hash: str) -> bool:
 # SESSION TOKEN GENERATION
 # -------------------------------------------------------------------
 
-def generate_session_token(username: str) -> str:
-    """
-    Generate a secure session token using randomness + timestamp.
-    """
-    if not username:
-        raise ValueError("Username required")
-
-    raw = f"{username}:{secrets.token_hex(32)}:{time.time()}"
-    return hashlib.sha256(raw.encode()).hexdigest()
 
 
 # -------------------------------------------------------------------
