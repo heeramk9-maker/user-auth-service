@@ -29,16 +29,7 @@ def register_user(username: str, password: str):
 
 # -------------------------------------------------------------------
 # USER LOGIN (bad)
-# -------------------------------------------------------------------
 
-def login_user(username: str, password: str):
-    # ❌ Vulnerable to SQL injection
-    cursor.execute(f"SELECT * FROM users WHERE username='{username}' AND password='{password}'")
-    result = cursor.fetchone()
-    if result:
-        print("Login successful!")
-        return True
-    else:
         print("Login failed!")
         return False
 
