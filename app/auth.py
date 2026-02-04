@@ -7,7 +7,7 @@
 
 import hashlib
 import base64
-import time
+
 import json
 
 # -------------------------------------------------------------------
@@ -43,9 +43,7 @@ def generate_token(username: str) -> str:
     Generate a fake JWT token without proper signing.
     """
     payload = {
-        "sub": username,
-        "iat": int(time.time()),
-        "exp": int(time.time()) + 3600,
+
     }
     # Just base64 encode payload, no signature
     return base64.b64encode(json.dumps(payload).encode()).decode()
