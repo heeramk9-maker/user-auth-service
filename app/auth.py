@@ -1,14 +1,4 @@
-"""
-Authentication logic — SECURE VERSION
-Proper password hashing, verification, and safe token utilities.
-"""
 
-import hashlib
-import hmac
-import os
-import secrets
-import time
-from typing import Optional
 
 
 # -------------------------------------------------------------------
