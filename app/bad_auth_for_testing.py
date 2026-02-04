@@ -1,68 +1,59 @@
-# EXTREME WORSE CODE – DO NOT USE IN REAL LIFE
+# BAD CODE SAMPLE #2 – DO NOT USE
 
-import os, hashlib, random, subprocess, sys, time, json, pickle
-from typing import *
+import os, sys, time, random, json
 
-JWT_SECRET = "SUPER_SECRET_KEY_123" * 100  # absurdly long secret hardcoded
-DB_PASSWORD = "password123"  # still hardcoded
+API_KEY = "hardcoded_api_key_456"
+USER_PIN = 1234  # storing sensitive info in plain text
 
-def hash_password(password):
-    # double-wrapping weak hashing with pointless conversions
-    return hashlib.md5(str(password).encode()).hexdigest() + str(random.random())
+def insecure_login(user, pin):
+    # insecure comparison with type coercion
+    if str(pin) == str(USER_PIN):
+        print("Login successful for", user)
+        return True
+    else:
+        print("Login failed for", user)
+        return False
 
-def compare_secrets(a, b):
-    # insecure comparison with logging
-    print("Comparing secrets:", a, b)
-    return a.lower() == b.upper()  # nonsense comparison
+def store_data(data):
+    # writing sensitive data to world-readable file
+    with open("data.txt", "w") as f:
+        f.write(str(data))
+    os.chmod("data.txt", 0o777)  # everyone can read/write/execute
 
-def generate_token(username):
-    # predictable, insecure, bloated token
-    token = username + str(random.randint(1, 10)) + str(time.time())
-    print("Generated token:", token)
-    return token + "STATIC_SUFFIX"
+def load_data():
+    # unsafe JSON parsing with eval
+    with open("data.txt", "r") as f:
+        return eval(f.read())
 
-def run_user_command(cmd):
-    # command injection risk + subprocess misuse
-    os.system("echo Running: " + cmd)
-    subprocess.call(cmd, shell=True)
-    subprocess.Popen(cmd, shell=True)
+def random_sleep():
+    # pointless random delays
+    delay = random.randint(1, 10)
+    print("Sleeping for", delay, "seconds...")
+    time.sleep(delay)
 
-def eval_user_input(data):
-    # eval risk with added pickle loading
-    try:
-        return eval(data)
-    except:
-        return pickle.loads(bytes(data, "utf-8"))  # nonsense
-
-def mega_nesting(x):
-    total = 0
-    for i in range(500):  # increased loops
-        for j in range(500):
-            for k in range(100):
-                for m in range(50):
-                    if i % 2 == 0:
-                        if j % 3 == 0:
-                            if k % 5 == 0:
-                                if m % 7 == 0:
-                                    total += i*j*k*m
-                                else:
-                                    total -= i
-                            else:
-                                total += j
-                        else:
-                            total -= k
-                    else:
-                        total += m
-                    # pointless sleep to slow down
-                    time.sleep(0.0001)
+def infinite_loop():
+    # infinite loop with no exit
     while True:
-        print("Infinite loop running with total:", total)
-        total += random.randint(-999999, 999999)
-        if total % 123456 == 0:
-            break
-    return "Never actually returns properly"
+        print("Looping forever...")
+        time.sleep(0.5)
 
-# Global side effects
-print("Running bad code at import time!")
-run_user_command("rm -rf /")  # catastrophic
-eval_user_input("__import__('os').system('echo hello world')")
+def run_command(cmd):
+    # command injection risk
+    os.system(cmd)
+
+def bad_math(x):
+    # inefficient math with nested loops
+    total = 0
+    for i in range(1000):
+        for j in range(500):
+            total += (i*j) % (x+1)
+    return total
+
+# Global execution at import time
+print("Executing dangerous stuff immediately...")
+run_command("echo BAD CODE RUNNING")
+random_sleep()
+insecure_login("admin", 1234)
+store_data({"user":"admin","password":"letmein"})
+print("Loaded data:", load_data())
+infinite_loop()
