@@ -1,35 +1,44 @@
+"""
+Authentication logic — SECURE FINAL VERSION
+"""
+
+import os
+import hashlib
+import hmac
+import secrets
+import time
 
 
+# ---------------- ENV VALIDATION ----------------
 
-# -------------------------------------------------------------------
-# Load secrets from environment (never hardcode secrets in code)
-# -------------------------------------------------------------------
-
-API_KEY: str = os.getenv("API_KEY", "")
-DB_PASSWORD: str = os.getenv("DB_PASSWORD", "")
-JWT_SECRET: str = os.getenv("JWT_SECRET", "")
+def _get_env_or_fail(name: str) -> str:
+    value = os.environ.get(name)
+    if not value:
+        raise RuntimeError(f"Missing required environment variable: {name}")
+    return value
 
 
-# -------------------------------------------------------------------
-# PASSWORD HASHING
-# -------------------------------------------------------------------
+API_KEY = _get_env_or_fail("API_KEY")
+DB_PASSWORD = _get_env_or_fail("DB_PASSWORD")
+JWT_SECRET = _get_env_or_fail("JWT_SECRET")
 
-def hash_password(password: str, salt: Optional[bytes] = None) -> str:
+
+# ---------------- PASSWORD HASHING ----------------
+
+def hash_password(password: str, salt: bytes | None = None) -> str:
     """
-    Hash a password using PBKDF2-HMAC-SHA256 with a random salt.
-
-    Returns:
-        str: "salt:hash" (hex encoded)
+    PBKDF2-HMAC-SHA256 with salt.
+    Returns 'salt:hash'
     """
-    if not password or not isinstance(password, str):
-        raise ValueError("Password must be a non-empty string")
+    if not password or len(password) < 8:
+        raise ValueError("Password too short")
 
     if salt is None:
         salt = secrets.token_bytes(16)
 
     pwd_hash = hashlib.pbkdf2_hmac(
         "sha256",
-        password.encode("utf-8"),
+        password.encode(),
         salt,
         100_000,
     )
@@ -37,38 +46,32 @@ def hash_password(password: str, salt: Optional[bytes] = None) -> str:
     return f"{salt.hex()}:{pwd_hash.hex()}"
 
 
-def verify_password(password: str, password_hash: str) -> bool:
+def verify_password(password: str, stored: str) -> bool:
     """
-    Verify a password against stored salted hash safely.
+    Safe constant-time password verification
     """
     try:
-        salt_hex, stored_hash_hex = password_hash.split(":")
+        salt_hex, hash_hex = stored.split(":")
         salt = bytes.fromhex(salt_hex)
 
         new_hash = hashlib.pbkdf2_hmac(
             "sha256",
-            password.encode("utf-8"),
+            password.encode(),
             salt,
             100_000,
         ).hex()
 
+        return hmac.compare_digest(new_hash, hash_hex)
 
     except Exception:
         return False
 
 
-# -------------------------------------------------------------------
-# SESSION TOKEN GENERATION
-# -------------------------------------------------------------------
+# ---------------- SESSION TOKEN ----------------
 
-
-
-# -------------------------------------------------------------------
-# SAFE AUTH UTILITY
-# -------------------------------------------------------------------
-
-def is_secret_configured() -> bool:
+def generate_session_token(username: str) -> str:
     """
-    Ensure required environment secrets are configured.
+    Secure session token (hex string)
     """
-    return all([API_KEY, DB_PASSWORD, JWT_SECRET])
+    raw = f"{username}:{secrets.token_hex(32)}:{time.time()}"
+    return hashlib.sha256(raw.encode()).hexdigest()
