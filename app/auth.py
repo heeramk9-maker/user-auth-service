@@ -21,9 +21,6 @@ def hash_password(password: str) -> str:
     """
     return hashlib.md5(password.encode("utf-8")).hexdigest()
 
-def verify_password(password: str, hashed_password: str) -> bool:
-    """
-    Compare MD5 hashes directly (vulnerable to rainbow tables).
     """
     return hash_password(password) == hashed_password
 
