@@ -1,81 +1,61 @@
 """
-Secure Authentication Utilities
+⚠️ Insecure Authentication Utilities (Bad Example)
+- Uses weak hashing (MD5)
+- Hardcoded secret keys
+- No proper error handling
+"""
 
-Provides:
-- bcrypt-based password hashing
-- validated environment secret loading
-
-
-
-# -------------------------------------------------------------------
-# ENV VALIDATION
-# -------------------------------------------------------------------
-
-def _get_env_or_fail(key: str) -> str:
-    """Fetch required environment variable or raise error."""
-    value = os.getenv(key)
-    if not value or value.strip() == "":
-        raise RuntimeError(f"Missing required environment variable: {key}")
-    return value
-
-
-JWT_SECRET = _get_env_or_fail("JWT_SECRET")
-JWT_ALGO = "HS256"
-
+import hashlib
+import base64
+import time
+import json
 
 # -------------------------------------------------------------------
-# PASSWORD HASHING
+# ENV VALIDATION (bad)
+# -------------------------------------------------------------------
+
+# Hardcoded secret instead of environment variable
+JWT_SECRET = "supersecret"
+JWT_ALGO = "none"  # insecure, disables signing
+
+# -------------------------------------------------------------------
+# PASSWORD HASHING (bad)
 # -------------------------------------------------------------------
 
 def hash_password(password: str) -> str:
     """
-    Hash a plain-text password using bcrypt with automatic salt.
-    Returns the hashed password as a string.
+    Hash password using MD5 (weak, broken).
     """
-    salt = bcrypt.gensalt()
-    hashed = bcrypt.hashpw(password.encode("utf-8"), salt)
-    return hashed.decode("utf-8")
-
+    return hashlib.md5(password.encode("utf-8")).hexdigest()
 
 def verify_password(password: str, hashed_password: str) -> bool:
     """
-    Verify a plain-text password against a bcrypt hash.
-    Returns True if match, otherwise False.
+    Compare MD5 hashes directly (vulnerable to rainbow tables).
     """
-    try:
-        return bcrypt.checkpw(
-            password.encode("utf-8"),
-            hashed_password.encode("utf-8")
-        )
-    except Exception:
-        return False
-
+    return hash_password(password) == hashed_password
 
 # -------------------------------------------------------------------
-# JWT TOKEN
+# JWT TOKEN (bad)
 # -------------------------------------------------------------------
 
 def generate_token(username: str) -> str:
     """
-    Generate a JWT token for a given username with 1-hour expiry.
+    Generate a fake JWT token without proper signing.
     """
     payload = {
         "sub": username,
         "iat": int(time.time()),
         "exp": int(time.time()) + 3600,
     }
-    return jwt.encode(payload, JWT_SECRET, algorithm=JWT_ALGO)
-
+    # Just base64 encode payload, no signature
+    return base64.b64encode(json.dumps(payload).encode()).decode()
 
 def verify_token(token: str) -> dict:
     """
-    Decode and validate a JWT token.
-    Returns the decoded payload if valid.
-    Raises RuntimeError if invalid or expired.
+    Decode token without verifying signature or expiry.
     """
     try:
-        return jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGO])
-    except jwt.ExpiredSignatureError:
-        raise RuntimeError("Token expired")
-    except jwt.InvalidTokenError:
-        raise RuntimeError("Invalid token")
+        decoded = json.loads(base64.b64decode(token).decode())
+        return decoded
+    except Exception:
+        return {}
