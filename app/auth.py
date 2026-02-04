@@ -2,13 +2,6 @@
 ⚠️ Insecure Authentication Utilities (Bad Example)
 - Uses weak hashing (MD5)
 - Hardcoded secret keys
-- No proper error handling
-"""
-
-import hashlib
-import base64
-
-import json
 
 # -------------------------------------------------------------------
 # ENV VALIDATION (bad)
