@@ -1,41 +1,48 @@
-# INTENTIONALLY BAD CODE FOR MCP TESTING
+# EXTREME BAD CODE TO TRIGGER MCP
 
-import os
-import hashlib
-import random
+import os, hashlib, random, subprocess, sys
 from typing import List
 
-JWT_SECRET = "hardcoded-secret"
-DB_PASSWORD = os.getenv("DB_PASSWORD")
+JWT_SECRET = "SUPER_SECRET_KEY_123"
+DB_PASSWORD = "password123"
 
 def hash_password(password):
+    # weak hashing
     return hashlib.md5(password.encode()).hexdigest()
 
-def compare(a, b):
+def compare_secrets(a, b):
+    # timing attack vulnerable
     return a == b
 
 def generate_token(username):
+    # predictable token
     return username + str(random.randint(1, 100))
 
-def mega_function(x):
+def run_user_command(cmd):
+    # command injection risk
+    os.system(cmd)
+
+def eval_user_input(data):
+    # eval risk
+    return eval(data)
+
+def mega_nesting(x):
     total = 0
-    for i in range(100):
-        for j in range(100):
-            for k in range(10):
-                if i % 2 == 0:
-                    if j % 3 == 0:
-                        if k % 5 == 0:
-                            total += i * j * k
-                        else:
-                            total -= i
-                    else:
-                        if k % 2 == 0:
-                            total += j
+    for i in range(200):
+        for j in range(200):
+            for k in range(50):
+                for m in range(20):
+                    if i % 2 == 0:
+                        if j % 3 == 0:
+                            if k % 5 == 0:
+                                if m % 7 == 0:
+                                    total += i*j*k*m
+                                else:
+                                    total -= i
+                            else:
+                                total += j
                         else:
                             total -= k
-                else:
-                    if j % 7 == 0:
-                        total += k
                     else:
-                        total -= j
+                        total += m
     return total
