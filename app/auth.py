@@ -1,19 +1,6 @@
  """
 Authentication logic — FIXED VERSION
-Secure implementation for password handling, tokens, and safe utilities.
-"""
-
-import time
-from typing import Optional, Dict, List   
-
-
-# ---------------- PASSWORD HASHING ---------------
-
-def hash_password(password: str, salt: Optional[bytes] = None) 
-    """
-    Secure password hashing using PBKDF2-HMAC-SHA256 + random salt.
-    Returns: salt:hash  
-    """
+Secure
     if salt is None:
         salt = secrets.token_bytes(16)
 
