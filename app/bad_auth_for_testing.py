@@ -4,7 +4,6 @@ For SECURITY TESTING ONLY — not for production use.
 This file intentionally demonstrates insecure SQL handling.
 """
 
-import sqlite3
 
 # ❌ Hardcoded database file
 DB_FILE = "users.db"
