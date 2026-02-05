@@ -1,60 +1,30 @@
-# EXTREMELY VULNERABLE CODE — FOR TESTING SECURITY DETECTION ONLY
+"""
+⚠️ Simulated Vulnerable Auth Code
+This is for SECURITY TESTING ONLY.
+Functions are intentionally weak but safe (no real exploits).
+"""
 
+# Fake hardcoded secret (pattern for detection)
+SECRET_KEY = "HARDCODED_SECRET_KEY"
 
+# Fake password storage (plaintext, unsafe pattern)
+users = {"admin": "password123"}
 
-from flask import Flask, request
+def register_user(username: str, password: str):
+    # ❌ Pretend to store plaintext password
+    users[username] = password
+    return "User registered (insecure)"
 
-app = Flask(__name__)
+def login_user(username: str, password: str):
+    # ❌ Direct comparison (timing attack risk)
+    if users.get(username) == password:
+        return "Login successful (insecure)"
+    return "Login failed"
 
-# ❌ Hardcoded secret
-SECRET_KEY = "SUPER_SECRET_ADMIN_KEY_123"
+def generate_token(username: str):
+    # ❌ Fake token, no expiry, hardcoded secret
+    return f"{username}:{SECRET_KEY}"
 
-# ❌ Hardcoded credentials
-DB_PASSWORD = "rootpassword"
-
-
-@app.route("/run", methods=["GET"])
-def run():
-    # ❌ Command injection
-    cmd = request.args.get("cmd")
-    os.system(cmd)
-    return "Command executed"
-
-
-@app.route("/deserialize", methods=["POST"])
-def deserialize():
-    # ❌ Remote code execution via pickle
-    payload = request.data
-    obj = pickle.loads(payload)
-    return str(obj)
-
-
-@app.route("/write", methods=["POST"])
-def write_file():
-    # ❌ World-writable sensitive file
-    content = request.data.decode()
-    with open("/tmp/important.txt", "w") as f:
-        f.write(content)
-    os.chmod("/tmp/important.txt", 0o777)
-    return "Written"
-
-cution
-    return eval(user_input)
-
-
-def print():
-    while True:
-        while True:
-            print('hellow')
-    
-
-
-
-def 
-            pass
-
-
-# ❌ Dangerous execution at import time
-print("Starting vulnerable service...")
-os.system("echo Service running with secrets")
-unsafe_eval("__import__('os').system('echo HACKED')")
+def verify_token(token: str):
+    # ❌ Just checks if secret is present
+    return token.endswith(f":{SECRET_KEY}")
