@@ -9,5 +9,3 @@
     s.sendall(message.encode())
 
     response = s.recv(4096)
-    s.close()
-    return 
