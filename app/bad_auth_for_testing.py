@@ -3,9 +3,7 @@ Secure Authentication Module
 Designed with separation of concerns and secure practices.
 """
 
-import os  
-import sqlite3
-import bcrypt
+ bcrypt
 import jwt
 from datetime import datetime, timedelta
 from typing import Optional
