@@ -1,9 +1,4 @@
-"""
-⚠️ Simulated Very Vulnerable Networking Code
-For SECURITY TESTING ONLY — not for production use.
 
-
-    # ❌ No TLS, plaintext communicatio
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((HOST, PORT))
     s.listen(10)  # arbitrary backlog
