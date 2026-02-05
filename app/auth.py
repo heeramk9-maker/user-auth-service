@@ -4,12 +4,6 @@ For SECURITY TESTING ONLY — not for production use.
 This file intentionally demonstrates multiple insecure patterns.
 """
 
-import os
-import hashlib
-import socket
-import pickle
-import sqlite3
-
 # ❌ Hardcoded secrets and paths
 SECRET_KEY = "HARDCODED_SUPER_SECRET"
 FILE_PATH = "/tmp/unsafe.txt"
@@ -77,12 +71,7 @@ def init_db():
     conn.close()
 
 def insecure_query(username: str):
-    conn = sqlite3.connect(DB_FILE)
-    cursor = conn.cursor()
-    # ❌ SQL injection risk
-    cursor.execute(f"SELECT * FROM users WHERE username='{username}'")
-    result = cursor.fetchall()
-    conn.close()
+
     return result
 
 # -------------------------------------------------------------------
