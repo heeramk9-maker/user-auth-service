@@ -12,7 +12,7 @@ This file intentionally demonstrates multiple insecure patterns.
     s.listen(10)  # arbitrary backlog
     print(f"Insecure server listening on {HOST}:{PORT}")
 
-    while True:
+    while True
         conn, addr = s.accept()
         print(f"Connection from {addr}")
 
