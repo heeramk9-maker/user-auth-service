@@ -1,20 +1,25 @@
 """
-⚠️ Simulated Vulnerable Networking Code
+⚠️ Simulated Very Vulnerable Networking Code
 For SECURITY TESTING ONLY — not for production use.
-This file intentionally demonstrates insecure socket handling.
+This file intentionally demonstrates multiple insecure patterns.
 """
 
 import socket
+import os
 
 # ❌ Hardcoded host and port
 HOST = "0.0.0.0"   # binds to all interfaces
 PORT = 12345       # fixed port, no config
 
+# ❌ Hardcoded credentials
+USERNAME = "admin"
+PASSWORD = "1234"
+
 def start_server():
     # ❌ No TLS, plaintext communication
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((HOST, PORT))
-    s.listen(5)
+    s.listen(10)  # arbitrary backlog
     print(f"Insecure server listening on {HOST}:{PORT}")
 
     while True:
@@ -22,9 +27,16 @@ def start_server():
         print(f"Connection from {addr}")
 
         # ❌ No authentication, accepts any client
-        data = conn.recv(1024)
+        data = conn.recv(4096)  # large buffer, no limits
         if not data:
             break
+
+        # ❌ Executes received data unsafely (simulated)
+        try:
+            # Insecure pattern: pretending to run commands
+            os.system(data.decode())  # unsafe execution
+        except Exception:
+            pass
 
         # ❌ Echoes back raw input (potential injection risk)
         conn.sendall(data)
@@ -36,7 +48,13 @@ def insecure_client(message: str):
     # ❌ Connects without validation
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((HOST, PORT))
+
+    # ❌ Sends credentials in plaintext
+    s.sendall(f"{USERNAME}:{PASSWORD}\n".encode())
+
+    # ❌ Sends arbitrary message
     s.sendall(message.encode())
-    response = s.recv(1024)
+
+    response = s.recv(4096)
     s.close()
     return response.decode()
