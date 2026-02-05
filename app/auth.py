@@ -5,9 +5,7 @@ This file intentionally demonstrates insecure patterns:
 - Socket misuse
 - Insecure pickle deserialization
 - Arbitrary eval
-- Unsafe file handling
-- SQL injection
-"""
+
 
 import socket
 import pickle
