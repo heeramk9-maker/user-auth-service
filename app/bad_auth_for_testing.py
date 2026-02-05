@@ -5,8 +5,7 @@ This file intentionally demonstrates insecure SQL handling.
 """
 
 
-# ❌ Hardcoded database file
-DB_FILE = "users.db"
+# ❌ Hardcode]
 
 def init_db():
     conn = sqlite3.connect(DB_FILE)
