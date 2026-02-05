@@ -8,8 +8,6 @@
 
         # ❌ No logging, no error handling
         conn.close()
-
-def insecure_client(message: str):
     # ❌ Connects without validation
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((HOST, PORT))
