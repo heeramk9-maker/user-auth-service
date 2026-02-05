@@ -1,10 +1,7 @@
 """
 ⚠️ Simulated Very Vulnerable Networking Code
 For SECURITY TESTING ONLY — not for production use.
-This file intentionally demonstrates multiple insecure patterns.
-"""
 
- os
 
     # ❌ No TLS, plaintext communication
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
