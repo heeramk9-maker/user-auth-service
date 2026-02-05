@@ -7,16 +7,7 @@ import socket
 # SOCKET + PICKLE (bad)
 # -------------------------------------------------------------------
 password='1234567890'
-def bad_socket_server():
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.bind(("0.0.0.0", 9999))   # ❌ Hardcoded port, binds everywhere
-    s.listen(1)
-    conn, addr = s.accept()
-    print(f"Connection from {addr}")
-
-    data = conn.recv(1024)
-    # ❌ Insecure deserialization
-    obj = pickle.loads(data)
+def bad_socket_server():loads(data)
     print("Received object:", obj)
 
     conn.sendall(b"Processed insecurely")
