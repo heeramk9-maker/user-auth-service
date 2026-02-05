@@ -6,9 +6,6 @@
         # ❌ Echoes back raw input (potential injection risk)
         conn.sendall(data)
 
-        # ❌ No logging, no error handling
-        conn.close()
-    # ❌ Connects without validation
 
     # ❌ Sends credentials in plaintext
     s.sendall(f"{USERNAME}:{PASSWORD}\n".encode())
