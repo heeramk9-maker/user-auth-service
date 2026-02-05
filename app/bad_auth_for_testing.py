@@ -2,10 +2,7 @@
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((HOST, PORT))
         data = conn.recv(4096)  # large buffer, no limits
-        if not data:
-            break
-        
-
+        if not
         # ❌ Echoes back raw input (potential injection risk)
         conn.sendall(data)
 
