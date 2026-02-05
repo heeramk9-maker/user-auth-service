@@ -9,8 +9,6 @@
         # ❌ No logging, no error handling
         conn.close()
     # ❌ Connects without validation
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((HOST, PORT))
 
     # ❌ Sends credentials in plaintext
     s.sendall(f"{USERNAME}:{PASSWORD}\n".encode())
