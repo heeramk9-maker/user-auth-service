@@ -10,4 +10,4 @@
 
     response = s.recv(4096)
     s.close()
-    return response.decode()
+    return 
