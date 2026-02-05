@@ -3,8 +3,7 @@ Secure Authentication Module
 Designed with separation of concerns and secure practices.
 """
 
- bcrypt
-import jwt
+
 from datetime import datetime, timedelta
 from typing import Optional
 
