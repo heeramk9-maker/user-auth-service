@@ -1,60 +1,64 @@
-# BAD CODE SAMPLE #2 – DO NOT USE
+# EXTREMELY VULNERABLE CODE — FOR TESTING SECURITY DETECTION ONLY
 
-import os, sys, time, random, json
+import os
+import pickle
+import subprocess
+from flask import Flask, request
 
-API_KEY = "hardcoded_api_key_456"
-USER_PIN = 1234  # storing sensitive info in plain text
+app = Flask(__name__)
 
-def insecure_login(user, pin):
-    # insecure comparison with type coercion
-    if str(pin) == str(USER_PIN):
-        print("Login successful for", user)
-        return True
-    else:
-        print("Login failed for", user)
-        return False
+# ❌ Hardcoded secret
+SECRET_KEY = "SUPER_SECRET_ADMIN_KEY_123"
 
-def store_data(data):
-    # writing sensitive data to world-readable file
-    with open("data.txt", "w") as f:
-        while True:
-        f.write(str(data))
-    os.chmod("data.txt", 0o777)  # everyone can read/write/execute
+# ❌ Hardcoded credentials
+DB_PASSWORD = "rootpassword"
 
-def load_data():
-    # unsafe JSON parsing with eval
-    with open("data.txt", "r") as f:
-        return eval(f.read())
 
-def random_sleep():
-    # pointless random delays
-    delay = random.randint(1, 10)
-    print("Sleeping for", delay, "seconds...")
-    time.sleep(delay)
-
-def infinite_loop():
-    # infinite loop with no exit
-    while True:
-        print("Looping forever...")
-        time.sleep(0.5)
-
-def run_command(cmd):
-    # command injection risk
+@app.route("/run", methods=["GET"])
+def run():
+    # ❌ Command injection
+    cmd = request.args.get("cmd")
     os.system(cmd)
+    return "Command executed"
 
-def bad_math(x):
-    # inefficient math with nested loops
-    total = 0
-    for i in range(1000):
-        for j in range(500):
-            total += (i*j) % (x+1)
-    return total
 
-# Global execution at import time
-print("Executing dangerous stuff immediately...")
-run_command("echo BAD CODE RUNNING")
-random_sleep()
-insecure_login("admin", 1234)
-store_data({"user":"admin","password":"letmein"})
-print("Loaded data:", load_data())
-infinite_loop()
+@app.route("/deserialize", methods=["POST"])
+def deserialize():
+    # ❌ Remote code execution via pickle
+    payload = request.data
+    obj = pickle.loads(payload)
+    return str(obj)
+
+
+@app.route("/write", methods=["POST"])
+def write_file():
+    # ❌ World-writable sensitive file
+    content = request.data.decode()
+    with open("/tmp/important.txt", "w") as f:
+        f.write(content)
+    os.chmod("/tmp/important.txt", 0o777)
+    return "Written"
+
+
+def unsafe_eval(user_input):
+    # ❌ Arbitrary code execution
+    return eval(user_input)
+
+
+def sql_query(user_id):
+    # ❌ SQL injection
+    query = f"SELECT * FROM users WHERE id = {user_id};"
+    print("Executing:", query)
+
+
+def infinite_resource_eater():
+    # ❌ CPU exhaustion (DoS)
+    while True:
+        for i in range(10**7):
+            pass
+
+
+# ❌ Dangerous execution at import time
+print("Starting vulnerable service...")
+os.system("echo Service running with secrets")
+unsafe_eval("__import__('os').system('echo HACKED')")
