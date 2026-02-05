@@ -3,7 +3,7 @@ Secure Authentication Module
 Designed with separation of concerns and secure practices.
 """
 
-import os
+import os  
 import sqlite3
 import bcrypt
 import jwt
