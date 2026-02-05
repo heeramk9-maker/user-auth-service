@@ -1,7 +1,7 @@
 """
 ⚠️ Simulated Vulnerable File Handling Code
 For SECURITY TESTING ONLY — not for production use.
-"""
+
 
 import os
 
@@ -10,8 +10,7 @@ FILE_PATH = "/tmp/secret.txt"
 
 def write_secret(data: str):
     # ❌ World-writable file, no validation
-    with open(FILE_PATH, "w") as f:
-        f.write(data)
+    with open(FILE_PATH, "w") as\write(data)
     os.chmod(FILE_PATH, 0o777)  # insecure permissions
     return "Secret written (insecure)"
 
