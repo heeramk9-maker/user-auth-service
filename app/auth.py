@@ -8,13 +8,6 @@ This file intentionally demonstrates insecure patterns:
 
 
 import socket
-import pickle
-import os
-import sqlite3
-
-# ❌ Hardcoded file path and DB file
-FILE_PATH = "/tmp/important.txt"
-DB_FILE = "users.db"
 
 # -------------------------------------------------------------------
 # SOCKET + PICKLE (bad)
