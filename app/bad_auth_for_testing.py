@@ -1,30 +1,26 @@
 """
-⚠️ Simulated Vulnerable Auth Code
-This is for SECURITY TESTING ONLY.
-Functions are intentionally weak but safe (no real exploits).
+⚠️ Simulated Vulnerable File Handling Code
+For SECURITY TESTING ONLY — not for production use.
 """
 
-# Fake hardcoded secret (pattern for detection)
-SECRET_KEY = "HARDCODED_SECRET_KEY"
+import os
 
-# Fake password storage (plaintext, unsafe pattern)
-users = {"admin": "password123"}
+# ❌ Hardcoded file path
+FILE_PATH = "/tmp/secret.txt"
 
-def register_user(username: str, password: str):
-    # ❌ Pretend to store plaintext password
-    users[username] = password
-    return "User registered (insecure)"
+def write_secret(data: str):
+    # ❌ World-writable file, no validation
+    with open(FILE_PATH, "w") as f:
+        f.write(data)
+    os.chmod(FILE_PATH, 0o777)  # insecure permissions
+    return "Secret written (insecure)"
 
-def login_user(username: str, password: str):
-    # ❌ Direct comparison (timing attack risk)
-    if users.get(username) == password:
-        return "Login successful (insecure)"
-    return "Login failed"
+def read_secret():
+    # ❌ No access control
+    with open(FILE_PATH, "r") as f:
+        return f.read()
 
-def generate_token(username: str):
-    # ❌ Fake token, no expiry, hardcoded secret
-    return f"{username}:{SECRET_KEY}"
-
-def verify_token(token: str):
-    # ❌ Just checks if secret is present
-    return token.endswith(f":{SECRET_KEY}")
+def delete_secret():
+    # ❌ No confirmation, deletes immediately
+    os.remove(FILE_PATH)
+    return "Secret deleted (insecure)"
