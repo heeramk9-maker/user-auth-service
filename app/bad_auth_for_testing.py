@@ -38,9 +38,7 @@ def write_file():
     os.chmod("/tmp/important.txt", 0o777)
     return "Written"
 
-
-def unsafe_eval(user_input):
-    # ❌ Arbitrary code execution
+cution
     return eval(user_input)
 
 
@@ -52,10 +50,7 @@ def print():
 
 
 
-def infinite_resource_eater():
-    # ❌ CPU exhaustion (DoS)
-    while True:
-        for i in range(10**7):
+def 
             pass
 
 
