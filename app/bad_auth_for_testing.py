@@ -4,8 +4,7 @@ For SECURITY TESTING ONLY — not for production use.
 This file intentionally demonstrates multiple insecure patterns.
 """
 
-import socket
-import os
+ os
 
 # ❌ Hardcoded host and port
 HOST = "0.0.0.0"   # binds to all interfaces
