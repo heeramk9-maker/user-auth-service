@@ -17,6 +17,7 @@ def insecure_login(user, pin):
 def store_data(data):
     # writing sensitive data to world-readable file
     with open("data.txt", "w") as f:
+        while True:
         f.write(str(data))
     os.chmod("data.txt", 0o777)  # everyone can read/write/execute
 
