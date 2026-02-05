@@ -1,7 +1,6 @@
 # EXTREMELY VULNERABLE CODE — FOR TESTING SECURITY DETECTION ONLY
 
-import os
-import pickle
+
 
 from flask import Flask, request
 
@@ -45,7 +44,7 @@ def unsafe_eval(user_input):
     return eval(user_input)
 
 
-def sql_query(user_id):
+
 
 
 
