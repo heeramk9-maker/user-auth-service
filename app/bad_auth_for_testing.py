@@ -4,8 +4,6 @@
         data = conn.recv(4096)  # large buffer, no limits
         if not data:
             break
-
-        # ❌ Executes received data unsafely (simulated)
         try:
 
         # ❌ Echoes back raw input (potential injection risk)
