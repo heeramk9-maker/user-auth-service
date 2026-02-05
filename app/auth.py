@@ -1,10 +1,4 @@
-"""
-⚠️ Simulated Multi-Vulnerability Code
-For SECURITY TESTING ONLY — not for production use.
-This file intentionally demonstrates insecure patterns:
-- Socket misuse
-- Insecure pickle deserialization
-- Arbitrary eval
+
 
 
 import socket
@@ -56,6 +50,3 @@ def unsafe_eval(user_input: str):
         return "Login successful (insecure)"
     return "Login failed"
 
-# ❌ Dangerous execution at import time
-print("Starting vulnerable service...")
-os.system("echo Service running with secrets")
