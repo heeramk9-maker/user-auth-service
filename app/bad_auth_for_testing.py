@@ -1,73 +1,42 @@
 """
-⚠️ Simulated Vulnerable File Handling & Auth Code
+⚠️ Simulated Vulnerable Networking Code
 For SECURITY TESTING ONLY — not for production use.
-This file intentionally demonstrates multiple insecure patterns.
+This file intentionally demonstrates insecure socket handling.
 """
 
-import os
-import hashlib
+import socket
 
-# ❌ Hardcoded secrets and paths
-FILE_PATH = "/tmp/secret.txt"
-SECRET_KEY = "HARDCODED_SUPER_SECRET"
+# ❌ Hardcoded host and port
+HOST = "0.0.0.0"   # binds to all interfaces
+PORT = 12345       # fixed port, no config
 
-# ❌ Insecure global user store
-users = {"admin": "password123"}  # plaintext password
+def start_server():
+    # ❌ No TLS, plaintext communication
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind((HOST, PORT))
+    s.listen(5)
+    print(f"Insecure server listening on {HOST}:{PORT}")
 
-# -------------------------------------------------------------------
-# FILE HANDLING (bad)
-# -------------------------------------------------------------------
+    while True:
+        conn, addr = s.accept()
+        print(f"Connection from {addr}")
 
-def write_secret(data: str):
-    # ❌ World-writable file, no validation
-    with open(FILE_PATH, "w") as f:
-        f.write(data)
-    os.chmod(FILE_PATH, 0o777)  # insecure permissions
-    return "Secret written (insecure)"
+        # ❌ No authentication, accepts any client
+        data = conn.recv(1024)
+        if not data:
+            break
 
-def read_secret():
-    # ❌ No access control, no error handling
-    with open(FILE_PATH, "r") as f:
-        return f.read()
+        # ❌ Echoes back raw input (potential injection risk)
+        conn.sendall(data)
 
-def delete_secret():
-    # ❌ No confirmation, deletes immediately
-    os.remove(FILE_PATH)
-    return "Secret deleted (insecure)"
+        # ❌ No logging, no error handling
+        conn.close()
 
-# -------------------------------------------------------------------
-# AUTHENTICATION (bad)
-# -------------------------------------------------------------------
-
-def register_user(username: str, password: str):
-    # ❌ Weak hashing (SHA1, no salt)
-    hashed = hashlib.sha1(password.encode()).hexdigest()
-    users[username] = hashed
-    return "User registered (insecure)"
-
-def login_user(username: str, password: str):
-    # ❌ Direct comparison, timing attack risk
-    hashed = hashlib.sha1(password.encode()).hexdigest()
-    if users.get(username) == hashed:
-        return "Login successful (insecure)"
-    return "Login failed"
-
-def generate_token(username: str):
-    # ❌ Hardcoded secret, no expiry
-    return f"{username}:{SECRET_KEY}"
-
-def verify_token(token: str):
-    # ❌ Just checks if secret is present
-    return token.endswith(f":{SECRET_KEY}")
-
-# -------------------------------------------------------------------
-# DANGEROUS EXECUTION (bad)
-# -------------------------------------------------------------------
-
-def unsafe_eval(user_input: str):
-    # ❌ Arbitrary code execution
-    return eval(user_input)
-
-# ❌ Runs at import time
-print("Starting vulnerable service...")
-os.system("echo Service running with secrets")
+def insecure_client(message: str):
+    # ❌ Connects without validation
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.connect((HOST, PORT))
+    s.sendall(message.encode())
+    response = s.recv(1024)
+    s.close()
+    return response.decode()
