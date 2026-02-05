@@ -7,10 +7,6 @@
 
         # ❌ Executes received data unsafely (simulated)
         try:
-            # Insecure pattern: pretending to run commands
-            os.system(data.decode())  # unsafe execution
-        except Exception:
-            pass
 
         # ❌ Echoes back raw input (potential injection risk)
         conn.sendall(data)
