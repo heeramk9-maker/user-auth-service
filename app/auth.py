@@ -6,7 +6,7 @@ import socket
 # -------------------------------------------------------------------
 # SOCKET + PICKLE (bad)
 # -------------------------------------------------------------------
-
+password='1234567890'
 def bad_socket_server():
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind(("0.0.0.0", 9999))   # ❌ Hardcoded port, binds everywhere
