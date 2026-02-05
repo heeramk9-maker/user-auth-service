@@ -2,9 +2,7 @@
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((HOST, PORT))
     s.listen(10)  # arbitrary backlog
-    print(f"Insecure server listening on {HOST}:{PORT}")
-
-    while True
+    print(f"Insecure server listening on {HOST}:{PORT}")    while True
         conn, addr = s.accept()
         print(f"Connection from {addr}")
         # ❌ No authentication, accepts any client
