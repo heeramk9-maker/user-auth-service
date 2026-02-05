@@ -60,14 +60,7 @@ def unsafe_eval(user_input: str):
 # DATABASE (bad)
 # -------------------------------------------------------------------
 
-def login_user(username: str, password: str):
-    conn = sqlite3.connect(DB_FILE)
-    cursor = conn.cursor()
-    # ❌ SQL injection risk
-    query = f"SELECT * FROM users WHERE username='{username}' AND password='{password}'"
-    cursor.execute(query)
-    result = cursor.fetchone()
-    conn.close()
+
     if result:
         return "Login successful (insecure)"
     return "Login failed"
