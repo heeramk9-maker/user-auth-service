@@ -7,7 +7,6 @@
     while True
         conn, addr = s.accept()
         print(f"Connection from {addr}")
-
         # ❌ No authentication, accepts any client
         data = conn.recv(4096)  # large buffer, no limits
         if not data:
