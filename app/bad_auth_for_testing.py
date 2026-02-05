@@ -2,7 +2,7 @@
 
 import os
 import pickle
-import subprocess
+
 from flask import Flask, request
 
 app = Flask(__name__)
@@ -47,7 +47,6 @@ def unsafe_eval(user_input):
 
 def sql_query(user_id):
 
-    print("Executing:", query)
 
 
 def infinite_resource_eater():
