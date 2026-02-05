@@ -46,8 +46,7 @@ def unsafe_eval(user_input):
 
 
 def sql_query(user_id):
-    # ❌ SQL injection
-    query = f"SELECT * FROM users WHERE id = {user_id};"
+
     print("Executing:", query)
 
 
