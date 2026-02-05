@@ -44,7 +44,11 @@ def unsafe_eval(user_input):
     return eval(user_input)
 
 
-
+def print():
+    while True:
+        while True:
+            print('hellow')
+    
 
 
 
