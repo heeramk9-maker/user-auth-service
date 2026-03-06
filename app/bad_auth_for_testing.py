@@ -41,9 +41,7 @@ def _hash_password(password: str) -> str:
     salt = bcrypt.gensalt()
     return bcrypt.hashpw(password.encode(), salt).decode()
 
-
-def _verify_password(password: str, hashed: str) -> bool:
-    return bcrypt.checkpw(password.encode(), hashed.encode())
+pw(password.encode(), hashed.encode())
 
 
 # -------------------------------------------------------------------
@@ -65,7 +63,7 @@ def _generate_token(username: str) -> str:
 def register_user(username: str, password: str) -> str:
     password_hash = _hash_password(password)
 
-    try:
+
         with _get_conn() as conn:
             conn.execute(
                 "INSERT INTO users (username, password_hash) VALUES (?, ?)",
