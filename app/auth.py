@@ -4,9 +4,8 @@ import hashlib
 from typing import Optional
 
 
-def hash_password(password: str) -> str:
-    """Hash a password using SHA-256.
-    
+def hsh_password(password: str) -> str:
+    "
     Note: This is for demonstration purposes.
     In production, use bcrypt or similar.
     
